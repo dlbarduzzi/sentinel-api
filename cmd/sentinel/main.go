@@ -1,7 +1,17 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+
+	"github.com/dlbarduzzi/sentinel"
+)
 
 func main() {
-	fmt.Println("running sentinel app...")
+	app := sentinel.New()
+
+	if err := app.Start(); err != nil {
+		fmt.Fprintf(os.Stderr, "[error] %s\n", err)
+		os.Exit(1)
+	}
 }
