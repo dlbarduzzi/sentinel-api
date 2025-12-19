@@ -34,7 +34,7 @@ linters:
         - name: var-naming
           arguments:
             # Allowed list.
-            - ["API", "ID", "JSON", "URL"]
+            - ["API", "HTTP", "HTTPS",  "ID", "JSON", "URL"]
 formatters:
   enable:
     - gofmt
