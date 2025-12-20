@@ -1,13 +1,24 @@
 package core
 
 import (
+	"errors"
 	"fmt"
 	"log/slog"
 	"time"
+
+	"github.com/dlbarduzzi/sentinel/tools/logging"
+)
+
+const (
+	defaultLogLevel  = "info"
+	defaultLogFormat = "json"
 )
 
 // BaseAppConfig defines a BaseApp configuration option.
-type BaseAppConfig struct{}
+type BaseAppConfig struct {
+	LogLevel  logging.LogLevel
+	LogFormat logging.LogFormat
+}
 
 // Ensures that the BaseApp implements the App interface.
 var _ App = (*BaseApp)(nil)
@@ -23,6 +34,14 @@ func NewBaseApp(config BaseAppConfig) *BaseApp {
 		config: &config,
 	}
 
+	if app.config.LogLevel == "" {
+		app.config.LogLevel = defaultLogLevel
+	}
+
+	if app.config.LogFormat == "" {
+		app.config.LogFormat = defaultLogFormat
+	}
+
 	return app
 }
 
@@ -36,13 +55,11 @@ func (app *BaseApp) Logger() *slog.Logger {
 
 // Bootstrap initializes the application.
 func (app *BaseApp) Bootstrap() error {
-	return nil
-}
+	if err := app.initLogger(); err != nil {
+		return err
+	}
 
-// IsBootstrapped checks if the application was initialized.
-func (app *BaseApp) IsBootstrapped() bool {
-	// TODO: add validation...
-	return false
+	return nil
 }
 
 // OnShutdown run jobs before the application shuts down.
@@ -55,4 +72,17 @@ func (app *BaseApp) OnShutdown() {
 		fmt.Println("...running second shutdown func()...")
 		time.Sleep(time.Millisecond * 10)
 	}()
+}
+
+func (app *BaseApp) initLogger() error {
+	app.logger = logging.NewLoggerWithConfig(logging.Config{
+		Level:  app.config.LogLevel,
+		Format: app.config.LogFormat,
+	}).With(slog.String("app", "sentinel"))
+
+	if app.logger == nil {
+		return errors.New("logger not initialized")
+	}
+
+	return nil
 }

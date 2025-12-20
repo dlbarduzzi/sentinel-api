@@ -9,9 +9,6 @@ type App interface {
 	// Bootstrap initializes the application.
 	Bootstrap() error
 
-	// IsBootstrapped checks if the application was initialized.
-	IsBootstrapped() bool
-
 	// OnShutdown run jobs before the application shuts down.
 	OnShutdown()
 }

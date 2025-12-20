@@ -12,6 +12,10 @@ lint:
 
 .PHONY: test
 test:
+	@go test -count=1 ./... --cover --coverprofile=coverage.out
+
+.PHONY: test/verbose
+test/verbose:
 	@go test -count=1 ./... -v --cover --coverprofile=coverage.out
 
 .PHONY: test/coverage

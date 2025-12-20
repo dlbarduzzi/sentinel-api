@@ -23,7 +23,12 @@ func New() *Sentinel {
 
 func NewWithConfig(_ Config) *Sentinel {
 	s := &Sentinel{}
-	s.App = core.NewBaseApp(core.BaseAppConfig{})
+
+	s.App = core.NewBaseApp(core.BaseAppConfig{
+		LogLevel:  "info",
+		LogFormat: "json",
+	})
+
 	return s
 }
 
