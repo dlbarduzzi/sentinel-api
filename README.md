@@ -1,5 +1,17 @@
 # sentinel-api
 
+<p>
+  <a
+    href="https://github.com/dlbarduzzi/sentinel/actions/workflows/ci.yaml"
+    target="_blank"
+    rel="noopener">
+    <img
+      src="https://github.com/dlbarduzzi/sentinel/actions/workflows/ci.yaml/badge.svg"
+      alt="ci"
+    />
+  </a>
+</p>
+
 A centralized control plane for managing and synchronizing Prometheus alerts across multiple clusters.
 
 ## Acknowledgements
