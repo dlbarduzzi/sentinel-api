@@ -3,6 +3,7 @@ package logging
 import (
 	"context"
 	"fmt"
+	"io"
 	"log/slog"
 	"os"
 	"strings"
@@ -47,6 +48,7 @@ type Config struct {
 	Format    LogFormat
 	UseNano   bool
 	AddSource bool
+	Disabled  bool
 }
 
 func NewLogger() *slog.Logger {
@@ -71,6 +73,10 @@ func NewLoggerWithConfig(config Config) *slog.Logger {
 		Level:       SlogLevel(config.Level),
 		AddSource:   config.AddSource,
 		ReplaceAttr: ReplaceAttr(config.UseNano),
+	}
+
+	if config.Disabled {
+		return slog.New(slog.NewTextHandler(io.Discard, nil))
 	}
 
 	logger := slog.New(slog.NewTextHandler(os.Stderr, options))

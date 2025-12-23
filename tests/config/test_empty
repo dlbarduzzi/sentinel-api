@@ -1,0 +1,2 @@
+# This config is left empty on purpose to test unset variables and
+# to avoid throwing errors when config file is not found.

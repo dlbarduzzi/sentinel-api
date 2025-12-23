@@ -16,8 +16,9 @@ const (
 
 // BaseAppConfig defines a BaseApp configuration option.
 type BaseAppConfig struct {
-	LogLevel  logging.LogLevel
-	LogFormat logging.LogFormat
+	LogLevel    string
+	LogFormat   string
+	LogDisabled bool
 }
 
 // Ensures that the BaseApp implements the App interface.
@@ -76,8 +77,9 @@ func (app *BaseApp) OnShutdown() {
 
 func (app *BaseApp) initLogger() error {
 	app.logger = logging.NewLoggerWithConfig(logging.Config{
-		Level:  app.config.LogLevel,
-		Format: app.config.LogFormat,
+		Level:    logging.LogLevel(app.config.LogLevel),
+		Format:   logging.LogFormat(app.config.LogFormat),
+		Disabled: app.config.LogDisabled,
 	}).With(slog.String("app", "sentinel"))
 
 	if app.logger == nil {
