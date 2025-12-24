@@ -44,7 +44,7 @@ func New() *Sentinel {
 	return NewWithConfig(Config{
 		LogLevel:           "info",
 		LogFormat:          "json",
-		ServerPort:         8091,
+		ServerPort:         8090,
 		ServerIdleTimeout:  5,
 		ServerReadTimeout:  5,
 		ServerWriteTimeout: 5,
