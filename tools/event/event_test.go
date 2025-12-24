@@ -17,9 +17,9 @@ type testCase struct {
 	status          int
 	message         string
 	headers         map[string]string
-	expectedData    []string
 	expectedError   error
 	expectedStatus  int
+	expectedContent []string
 	expectedHeaders map[string]string
 }
 
@@ -30,9 +30,9 @@ func TestEventJson(t *testing.T) {
 			data:            map[string]any{"foo": "bar", "num": 123},
 			status:          200,
 			headers:         nil,
-			expectedData:    []string{`"foo":"bar"`, `"num":123`},
 			expectedError:   nil,
 			expectedStatus:  200,
+			expectedContent: []string{`"foo":"bar"`, `"num":123`},
 			expectedHeaders: map[string]string{"content-type": "application/json"},
 		},
 		{
@@ -40,9 +40,9 @@ func TestEventJson(t *testing.T) {
 			data:            map[string]any{"foo": "bar", "num": 123},
 			status:          200,
 			headers:         map[string]string{"content-type": "application/test"},
-			expectedData:    []string{`"foo":"bar"`, `"num":123`},
 			expectedError:   nil,
 			expectedStatus:  200,
+			expectedContent: []string{`"foo":"bar"`, `"num":123`},
 			expectedHeaders: map[string]string{"content-type": "application/json"},
 		},
 		{
@@ -50,9 +50,9 @@ func TestEventJson(t *testing.T) {
 			data:            map[string]any{"foo": "bar", "num": 123},
 			status:          400,
 			headers:         map[string]string{"content-type": "application/test"},
-			expectedData:    []string{`"foo":"bar"`, `"num":123`},
 			expectedError:   nil,
 			expectedStatus:  400,
+			expectedContent: []string{`"foo":"bar"`, `"num":123`},
 			expectedHeaders: map[string]string{"content-type": "application/json"},
 		},
 	}
@@ -72,9 +72,9 @@ func TestEventText(t *testing.T) {
 			status:          200,
 			message:         "hello world",
 			headers:         nil,
-			expectedData:    []string{"hello world"},
 			expectedError:   nil,
 			expectedStatus:  200,
+			expectedContent: []string{"hello world"},
 			expectedHeaders: map[string]string{"content-type": "text/plain; charset=utf-8"},
 		},
 		{
@@ -83,9 +83,9 @@ func TestEventText(t *testing.T) {
 			status:          400,
 			message:         "hello world",
 			headers:         nil,
-			expectedData:    []string{"hello world"},
 			expectedError:   nil,
 			expectedStatus:  400,
+			expectedContent: []string{"hello world"},
 			expectedHeaders: map[string]string{"content-type": "text/plain; charset=utf-8"},
 		},
 		{
@@ -94,9 +94,9 @@ func TestEventText(t *testing.T) {
 			status:          500,
 			message:         "",
 			headers:         nil,
-			expectedData:    []string{"Internal Server Error"},
 			expectedError:   nil,
 			expectedStatus:  500,
+			expectedContent: []string{"Internal Server Error"},
 			expectedHeaders: map[string]string{"content-type": "text/plain; charset=utf-8"},
 		},
 	}
@@ -115,9 +115,9 @@ func TestEventStatus(t *testing.T) {
 			data:            nil,
 			status:          200,
 			headers:         nil,
-			expectedData:    []string{"OK"},
 			expectedError:   nil,
 			expectedStatus:  200,
+			expectedContent: []string{"OK"},
 			expectedHeaders: map[string]string{"content-type": "text/plain; charset=utf-8"},
 		},
 		{
@@ -125,9 +125,9 @@ func TestEventStatus(t *testing.T) {
 			data:            nil,
 			status:          400,
 			headers:         nil,
-			expectedData:    []string{"Bad Request"},
 			expectedError:   nil,
 			expectedStatus:  400,
+			expectedContent: []string{"Bad Request"},
 			expectedHeaders: map[string]string{"content-type": "text/plain; charset=utf-8"},
 		},
 		{
@@ -135,9 +135,9 @@ func TestEventStatus(t *testing.T) {
 			data:            nil,
 			status:          500,
 			headers:         nil,
-			expectedData:    []string{"Internal Server Error"},
 			expectedError:   nil,
 			expectedStatus:  500,
+			expectedContent: []string{"Internal Server Error"},
 			expectedHeaders: map[string]string{"content-type": "text/plain; charset=utf-8"},
 		},
 	}
@@ -214,7 +214,7 @@ func testEvent(t *testing.T, tc testCase, fn func(e *Event) error) {
 			t.Fatalf("failed to read response body - %v", err)
 		}
 
-		if len(tc.expectedData) == 0 {
+		if len(tc.expectedContent) == 0 {
 			if len(rec.Body.Bytes()) != 0 {
 				t.Fatalf(
 					"expected empty content, got \n%v",
@@ -234,11 +234,11 @@ func testEvent(t *testing.T, tc testCase, fn func(e *Event) error) {
 				body = buf.String()
 			}
 
-			for _, data := range tc.expectedData {
-				if !strings.Contains(body, data) {
+			for _, content := range tc.expectedContent {
+				if !strings.Contains(body, content) {
 					t.Errorf(
-						"expected data %v in response body \n%v",
-						data, body,
+						"expected content %v in response body \n%v",
+						content, body,
 					)
 				}
 			}

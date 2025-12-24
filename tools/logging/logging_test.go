@@ -64,6 +64,20 @@ func TestNewLoggerWithConfigEmpty(t *testing.T) {
 	}
 }
 
+func TestNewLoggerWithConfigDisabled(t *testing.T) {
+	logger := NewLoggerWithConfig(Config{Disabled: true})
+
+	if logger == nil {
+		t.Fatal("expected logger not to be nil")
+	}
+
+	handler := logger.Handler()
+
+	if handler.Enabled(t.Context(), slog.LevelDebug) {
+		t.Fatal("expected logger level debug to be disabled")
+	}
+}
+
 func TestDefaultLogger(t *testing.T) {
 	logger1 := DefaultLogger()
 	if logger1 == nil {
