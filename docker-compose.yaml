@@ -1,0 +1,6 @@
+services:
+  server:
+    image: ghcr.io/dlbarduzzi/sentinel-api:latest
+    container_name: sentinel-api
+    ports:
+      - 8090:8090

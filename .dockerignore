@@ -7,8 +7,8 @@
 .github
 .gitignore
 .golangci.yml
-.local
-.volume
+.local/
+.volume/
 .vscode/
 bin/
 coverage.out

@@ -7,7 +7,7 @@
     rel="noopener">
     <img
       src="https://github.com/dlbarduzzi/sentinel-api/actions/workflows/build.yaml/badge.svg"
-      alt="ci"
+      alt="build"
     />
   </a>
 </p>
