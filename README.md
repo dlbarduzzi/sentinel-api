@@ -14,6 +14,25 @@
 
 A centralized control plane for managing and synchronizing Prometheus alerts across multiple clusters.
 
+## Docker
+
+1. Use the containerization tool of your choice (i.e. docker, podman)
+
+2. Build the docker image:
+
+```sh
+docker build -t ghcr.io/dlbarduzzi/sentinel-api:__VERSION__ . -f Dockerfile
+```
+
+3. Running container in your local machine:
+
+```sh
+docker run --rm \
+  --name sentinel-api \
+  -p 8090:8090 \
+  ghcr.io/dlbarduzzi/sentinel-api:__VERSION__
+```
+
 ## Acknowledgements
 
 This project is heavily inspired by the open-source project

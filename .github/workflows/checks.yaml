@@ -1,0 +1,11 @@
+name: Checks
+
+on:
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  ci-checks:
+    name: CI Checks
+    uses: ./.github/workflows/ci.yaml
