@@ -2,11 +2,11 @@
 
 <p>
   <a
-    href="https://github.com/dlbarduzzi/sentinel-api/actions/workflows/ci.yaml"
+    href="https://github.com/dlbarduzzi/sentinel-api/actions/workflows/checks.yaml"
     target="_blank"
     rel="noopener">
     <img
-      src="https://github.com/dlbarduzzi/sentinel-api/actions/workflows/ci.yaml/badge.svg"
+      src="https://github.com/dlbarduzzi/sentinel-api/actions/workflows/checks.yaml/badge.svg"
       alt="ci"
     />
   </a>

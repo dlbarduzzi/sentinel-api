@@ -1,4 +1,4 @@
-name: Checks
+name: CI Checks
 
 on:
   pull_request:
@@ -6,6 +6,6 @@ on:
       - "*"
 
 jobs:
-  ci-checks:
-    name: CI Checks
+  lint-test:
+    name: Lint & Test
     uses: ./.github/workflows/ci.yaml
